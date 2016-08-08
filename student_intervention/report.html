@@ -11801,7 +11801,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Import libraries</span>
@@ -11853,14 +11853,14 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Calculate number of students</span>
 <span class="n">n_students</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">student_data</span><span class="p">)</span>
 
 <span class="c1"># TODO: Calculate number of features</span>
-<span class="n">n_features</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">student_data</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">n_features</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">student_data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">student_data</span><span class="o">.</span><span class="n">columns</span> <span class="o">!=</span> <span class="s1">&#39;passed&#39;</span><span class="p">])</span>
 
 <span class="c1"># TODO: Calculate passing students</span>
 <span class="n">n_passed</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">student_data</span><span class="p">[</span><span class="n">student_data</span><span class="p">[</span><span class="s1">&#39;passed&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;yes&#39;</span><span class="p">])</span>
@@ -11890,7 +11890,7 @@ div#notebook {
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Total number of students: 395
-Number of features: 31
+Number of features: 30
 Number of students who passed: 265
 Number of students who failed: 130
 Graduation rate of the class: 67.09%
@@ -11916,7 +11916,7 @@ Graduation rate of the class: 67.09%
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Extract feature columns</span>
@@ -11998,7 +11998,7 @@ Feature values:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">preprocess_features</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
@@ -12069,7 +12069,7 @@ Feature values:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Import any additional functionality you may need here</span>
@@ -12151,7 +12151,15 @@ Testing set has 95 samples.
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong></p>
-<p>I chose Support Vector Machines, AdaBoosting and Gaussian Naive Bayes algorithms. SVMs are used in supervised learning for classification, regression and outlier detection. It's strengths are good performance in high dimensional spaces, memory efficiency (only stores a set of training points (support vectors) in the decision function) and effectivness when the number of features is large (but less than number of training points). SVMs perform poorly when the number of features is larger than number of training points. Given that we have relatively large number of features (but less than number of training points) SVMs should give nice results for our problem. AdaBoosting is used for classification and regression tasks. Its strengths are absence of difficult parameters to tune and computational efficency, ability to build complex models from less complex classifiers (Decision Trees for example). Weaknesses are that weak learners that algorithms uses should not be too complex, but better than random guess. I chose this model because of it's computational efficiency and ability to solve complex problems. Gaussian Naive Bayes is a good classifying algorithm, it can be used for regression tasks but predicted probability doesn't have decent accuracy. Strengths of Naive Bayes are fast running time, small amount of training data needed to estimate its parameters. Weakness is the assumption of conditional independence of features makes it usage inappropriate in some cases. I chose this algorithm due to small amount of training data and it's fast running time.</p>
+<p>I chose Support Vector Machines, AdaBoosting and Gaussian Naive Bayes algorithms.</p>
+<ul>
+<li><p>Support Vector Machines (SVMs) are linear classifiers, and are particularly apt for tasks that involve binary classification. Although they are a bit more complex to understand, they perform admirably when the dataset is small--a perfect fit for our student dataset--because they maximize the margin between classes. A major strength for SVMs is its high accuracy and robustness towards overfitting (due to regularization). A weakness of SVMs (in most implementations) is computational requirements; when using Sequential Minimal Optimization, the time complexity is O(n^3) and the algorithm must hold the entire training set in memory. As a result, with scikit-learn's implementation, handling more than 10,000 samples is problematic. Nonetheless, our 300-sample training set is well below this threshold!</p>
+</li>
+<li><p>AdaBoosting is used for classification and regression tasks. Its strengths are absence of difficult parameters to tune and computational efficency, ability to build complex models from less complex classifiers (Decision Trees for example). Weaknesses are that weak learners that algorithms uses should not be too complex, but better than random guess. I chose this model because of it's computational efficiency and ability to solve complex problems.</p>
+</li>
+<li><p>Gaussian Naive Bayes is a good classifying algorithm, it can be used for regression tasks but predicted probability doesn't have decent accuracy. Strengths of Naive Bayes are fast running time, small amount of training data needed to estimate its parameters. Weakness is the assumption of conditional independence of features makes it usage inappropriate in some cases. I chose this algorithm due to small amount of training data and it's fast running time.</p>
+</li>
+</ul>
 
 </div>
 </div>
@@ -12176,7 +12184,7 @@ Testing set has 95 samples.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">train_classifier</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">):</span>
@@ -12555,8 +12563,8 @@ F1 score for test set: 0.7353.
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong></p>
-<p>SVM model is trying to find hyperplane, a decision boundary that separates one class examples from another. It this case pupils that passed from those who didn't. This decision boundary is optimal in terms of having the largest margin between two classes that we're trying to separate.</p>
-<p>Then when its task is to make a prediction the model uses this boundary to determine which class to assign to the new instance - a "passed" class or "not passed" based on its position relative to the boundary.</p>
+<p>Before training the data was split into training and test sets in 300/95 proportion. During the training SVC method basically finds 2 hyperplanes for 'yes' and 'no' and draw the boundary between these classes. The SVC maximizes the distance between the planes (margin) for extra safety in predictions and the method mostly care about the points that are closest to the decision boundary (support vectors).</p>
+<p>If data is not linearly separable instead of hyperplanes Kernel trick is used. It allowes to draw non-linear decision boundaries like spheres. During the classification depending on the similarity to the training data the class in predicted. Sometimes SVC is prone to overfit, however, regularization and optimization funally makes it one of the best algorithms to implement.</p>
 
 </div>
 </div>
