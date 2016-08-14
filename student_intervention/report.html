@@ -12152,12 +12152,76 @@ Testing set has 95 samples.
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong></p>
 <p>I chose Support Vector Machines, AdaBoosting and Gaussian Naive Bayes algorithms.</p>
+<h5 id="Support-Vector-Classifier">Support Vector Classifier<a class="anchor-link" href="#Support-Vector-Classifier">&#182;</a></h5><ul>
+<li><em>General Applications</em><ul>
+<li>text (and hypertext) categorization such as email classification and web searching</li>
+<li>image classification</li>
+<li>bioinformatics (Protein classification, Cancer classification)</li>
+<li>hand-written character recognition</li>
+</ul>
+</li>
+</ul>
 <ul>
-<li><p>Support Vector Machines (SVMs) are linear classifiers, and are particularly apt for tasks that involve binary classification. Although they are a bit more complex to understand, they perform admirably when the dataset is small--a perfect fit for our student dataset--because they maximize the margin between classes. A major strength for SVMs is its high accuracy and robustness towards overfitting (due to regularization). A weakness of SVMs (in most implementations) is computational requirements; when using Sequential Minimal Optimization, the time complexity is O(n^3) and the algorithm must hold the entire training set in memory. As a result, with scikit-learn's implementation, handling more than 10,000 samples is problematic. Nonetheless, our 300-sample training set is well below this threshold!</p>
+<li><p><em>Strengths</em></p>
+<ul>
+<li>Avoids localization problems</li>
+<li>Can use the kernel trick</li>
+<li>Accurate with small &amp; clean datasets </li>
+<li>Effecient since it only uses a subset of the data</li>
+</ul>
 </li>
-<li><p>AdaBoosting is used for classification and regression tasks. Its strengths are absence of difficult parameters to tune and computational efficency, ability to build complex models from less complex classifiers (Decision Trees for example). Weaknesses are that weak learners that algorithms uses should not be too complex, but better than random guess. I chose this model because of it's computational efficiency and ability to solve complex problems.</p>
+<li><p><em>Weaknesses</em></p>
+<ul>
+<li>Sensitive to noise (may need to drop some features that are causing noise)</li>
+<li>It only considers two classes at a time</li>
+<li>Can be painful to train with large datasets</li>
+</ul>
 </li>
-<li><p>Gaussian Naive Bayes is a good classifying algorithm, it can be used for regression tasks but predicted probability doesn't have decent accuracy. Strengths of Naive Bayes are fast running time, small amount of training data needed to estimate its parameters. Weakness is the assumption of conditional independence of features makes it usage inappropriate in some cases. I chose this algorithm due to small amount of training data and it's fast running time.</p>
+<li><p><em>Reasons for Choosing</em></p>
+<ul>
+<li>SVMs can do well when with a small set as long as the number of data points is larger than the number of features being considered.</li>
+</ul>
+</li>
+</ul>
+<h5 id="AdaBoost-Classifier">AdaBoost Classifier<a class="anchor-link" href="#AdaBoost-Classifier">&#182;</a></h5><ul>
+<li><em>General Applications</em><ul>
+<li>An AdaBoost classifier is to interpolot between many weak learners to create a more accurate model.</li>
+</ul>
+</li>
+<li><em>Strengths</em><ul>
+<li>Improves classification accuracy</li>
+<li>Can be used with many different classifiers</li>
+<li>Not prone to overfitting which is helpful given our dataset's limited size</li>
+</ul>
+</li>
+<li><em>Weaknesses</em><ul>
+<li>Effected by noisy data</li>
+<li>Longer training time since boosting trains multiple instances of the estimator</li>
+</ul>
+</li>
+<li><em>Reasons for Choosing</em><ul>
+<li>In the case that the above 2 classifiers don't work well, we can use the AdaBoost classifier with SVC or simply go with the default estimator (Decision Trees).</li>
+</ul>
+</li>
+</ul>
+<h5 id="Gaussian-Naive-Bayes">Gaussian Naive Bayes<a class="anchor-link" href="#Gaussian-Naive-Bayes">&#182;</a></h5><ul>
+<li><em>General Applications</em><ul>
+<li>Spam mail filter</li>
+<li>Classifying emails based on content</li>
+</ul>
+</li>
+<li><em>Strengths</em><ul>
+<li>Easy and fast to use</li>
+<li>Accurate if the models assumption holds up</li>
+</ul>
+</li>
+<li><em>Weaknesses</em><ul>
+<li>When assumptions don't hold and accuracy will be off. (Assumption being that the pressence of features are independent of each other.)</li>
+</ul>
+</li>
+<li><em>Reasons for Choosing</em><ul>
+<li>One could argue that in our use case, I felt like features are independent of each other, although they could be depenent.</li>
+</ul>
 </li>
 </ul>
 
@@ -12542,7 +12606,13 @@ F1 score for test set: 0.7353.
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong></p>
-<p>Based on the result, I chose Support Vector Machines model as the best model. It shows fast training and prediction times and the algorithm is space efficient. It learns pretty well even on small training sets of size 100, and it continue to improve with the larger training set. The difference in F1 training score and F1 test score is becoming less as the training set grows, which is a sign that there's no overfitting. And SVM model has the best F1 test score on all the training set sizes, which means that the model generalizes very well on unseen data and predicts the most accurate results.</p>
+<p>The chosen model for this project is one that implements a <strong>Support Vector Machine</strong> (SVM) algorithim.</p>
+<p>Support Vector Machines can be used for Classification (labeling) or Regression (numeric) predications. Since we are trying to find out if an intervention is necessary or not, we will make use of specific type of SVMs called <strong>Support Vector Classifier</strong> (SVC) to get the results we are looking for.</p>
+<p>The <strong>SVM takes data about past students</strong> (age, gender, family, etc), and <strong>uses them to create predictions about new student cases.</strong> These predictions are made by creating a function that draws a boundary between the students who graduated and those who did not. The boundary should be drawn so as to maximize the the space between itself and each of the classifications (graduation results), this space is called a "margin".</p>
+<p><img src="https://cl.ly/303V2O2H2L2S/Image%202016-08-13%20at%203.38.17%20PM.png" alt="" title="pic_1"></p>
+<p>Often, though, it's not easy to draw a decision boundary in low dimensions (i.e. A line is not a good enough boundry), so the SVM separates the passing and failing students by turning the dimensions we're working with from a plane into a higher dimension such as a cube (see below). Once the SVM changes its way of looking at the data, it can then use a plane to seperate the data instead of just a line.</p>
+<p><img src="https://cl.ly/2x0l1f2r2R2W/Image%202016-08-13%20at%203.38.38%20PM.png" alt="" title="pic_2"></p>
+<p><strong>By using the technique mentioned above, our SVC algorithim predicts if a student will graduate or not with an acceptable accuracy.</strong></p>
 
 </div>
 </div>
@@ -12563,8 +12633,8 @@ F1 score for test set: 0.7353.
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong></p>
-<p>Before training the data was split into training and test sets in 300/95 proportion. During the training SVC method basically finds 2 hyperplanes for 'yes' and 'no' and draw the boundary between these classes. The SVC maximizes the distance between the planes (margin) for extra safety in predictions and the method mostly care about the points that are closest to the decision boundary (support vectors).</p>
-<p>If data is not linearly separable instead of hyperplanes Kernel trick is used. It allowes to draw non-linear decision boundaries like spheres. During the classification depending on the similarity to the training data the class in predicted. Sometimes SVC is prone to overfit, however, regularization and optimization funally makes it one of the best algorithms to implement.</p>
+<p>The chosen model is called <strong>Support Vector Machine</strong> (SVM). This algorithim works by trying to split the data in the cleanest way. This means that SVMs try to draw a line between different outcomes (aka Classifications) from the training data (aka student records available) in order to learn to predict the outcomes of a new student case.</p>
+<p>SVMs are a great choice when the resources are limited and the number of considerations (aka Features, ex: <code>absences</code>) in our data is relatively large. This is the case with in this project since the number of features is 40+ (after data processing) and the number of entries is 300+ which is relatively low. SVMs still however provide a quick training and prediction times compared to other algorithims that were considered.</p>
 
 </div>
 </div>
